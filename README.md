@@ -21,6 +21,12 @@ Don't know what to expect? Check out the previous years: [2017](https://adventof
 
 To improve knowledge sharing and experimentation, please document how to build and run your code. It can also be nice to keep a log here:
 
-##### _30/11_
+##### 30/11
 
-_Today I forked this repository in preparation of the start._
+I am planning to complete the Advent of Code using [Rust](https://www.rust-lang.org/). Rust is still fairly new for me, so we'll see how this goes...
+
+To run my code:
+- install Rust toolchain: https://www.rust-lang.org/install.html
+- make sure `cargo` is in your path
+- `cd` into directory
+- compile and run the program: `$ cargo run`
