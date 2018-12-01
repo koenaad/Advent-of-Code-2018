@@ -30,6 +30,7 @@ To run my code:
 - make sure `cargo` is in your path
 - `cd` into directory
 - compile and run the program: `$ cargo run`
+- run the tests: `$ cargo test`
 
 ##### 01/12
 
