@@ -1,0 +1,7 @@
+[package]
+name = "day01"
+version = "0.1.0"
+authors = ["Koenraad Verheyden <mail@koenraadverheyden.com>"]
+
+[dependencies]
+structopt = "0.2"
