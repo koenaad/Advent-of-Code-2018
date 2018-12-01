@@ -19,7 +19,8 @@ fn main() {
     let opt = Opt::from_args();
 
     let start = opt.start;
-    let input = parse_file_as_i32(&opt.input_file);
+    let input = parse_file_as_i32(&opt.input_file)
+        .expect("Could not process input file");
 
     // Puzzle 1
     println!("*** Puzzle 1: end result = {}", puzzle_1(start, &input));
@@ -53,16 +54,12 @@ fn puzzle_2(start: i32, changes: &Vec<i32>) -> i32 {
     }
 }
 
-/// panics if there is an issue reading or parsing `file`
-fn parse_file_as_i32(file: &PathBuf) -> Vec<i32> {
+fn parse_file_as_i32(file: &PathBuf) -> Result<Vec<i32>, String> {
     let content = std::fs::read_to_string(&file)
-        .expect("Could not read file");
+        .map_err(|e| e.to_string())?;
 
     content.lines()
-        .map(|line| {
-            line.parse()
-                .expect("Could not parse line")
-        })
+        .map(|line| line.parse::<i32>().map_err(|e| e.to_string()))
         .collect()
 }
 
@@ -87,18 +84,16 @@ mod tests {
 
     #[test]
     fn parse_file_valid() {
-        assert_eq!(parse_file_as_i32(&PathBuf::from("valid_input.txt")), vec![45, 3, -3, 3]);
+        assert_eq!(parse_file_as_i32(&PathBuf::from("valid_input.txt")).unwrap(), vec![45, 3, -3, 3]);
     }
 
     #[test]
-    #[should_panic]
     fn parse_file_invalid() {
-        parse_file_as_i32(&PathBuf::from("invalid_input.txt"));
+        assert!(parse_file_as_i32(&PathBuf::from("invalid_input.txt")).is_err());
     }
 
     #[test]
-    #[should_panic]
     fn parse_file_non_existing() {
-        parse_file_as_i32(&PathBuf::from("does_not_exist.txt"));
+        assert!(parse_file_as_i32(&PathBuf::from("does_not_exist.txt")).is_err());
     }
 }
