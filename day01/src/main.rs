@@ -22,22 +22,18 @@ fn main() {
     let input = parse_file_as_i32(&opt.input_file);
 
     // Puzzle 1
-    println!("*** Puzzle 1: end result = {}",
-        puzzle_1(start, &input)
-    );
+    println!("*** Puzzle 1: end result = {}", puzzle_1(start, &input));
 
     // Puzzle 2
-    println!("*** Puzzle 2: first duplicate frequency = {}", 
-        puzzle_2(start, &input)
-    );
+    println!("*** Puzzle 2: first duplicate frequency = {}", puzzle_2(start, &input));
 }
 
-/// returns the resulting frequency, after all `changes` are applied to `start`
+/// returns the resulting frequency after all `changes` are applied to `start`
 fn puzzle_1(start: i32, changes: &Vec<i32>) -> i32 {
     start + changes.iter().sum::<i32>()
 }
 
-/// continuously applies `changes` to `start`, returns first duplicate frequency
+/// continuously applies `changes` to `start` and returns first duplicate frequency
 fn puzzle_2(start: i32, changes: &Vec<i32>) -> i32 {
     let mut curr = start;
     let mut prev_freqs: HashSet<i32> = HashSet::new();
@@ -45,8 +41,8 @@ fn puzzle_2(start: i32, changes: &Vec<i32>) -> i32 {
     prev_freqs.insert(curr);
 
     loop {
-        for num in changes {
-            curr = curr + num;
+        for change in changes {
+            curr = curr + change;
 
             if prev_freqs.contains(&curr) {
                 return curr;
@@ -91,9 +87,7 @@ mod tests {
 
     #[test]
     fn parse_file_valid() {
-        let result = parse_file_as_i32(&PathBuf::from("valid_input.txt"));
-
-        assert_eq!(result, vec![45, 3, -3, 3]);
+        assert_eq!(parse_file_as_i32(&PathBuf::from("valid_input.txt")), vec![45, 3, -3, 3]);
     }
 
     #[test]
