@@ -20,11 +20,8 @@ fn main() {
     let input = parse_file(&opt.input_file);
 
     // Puzzle 1
-    let mut result = start;
+    let result = start + input.iter().sum::<i32>();
 
-    for num in &input {
-        result = result + num;
-    }
     println!("*** Puzzle 1: end result = {}", result);
 
     // Puzzle 2
@@ -54,14 +51,10 @@ fn parse_file(input_file: &std::path::PathBuf) -> Vec<i32> {
     let content = std::fs::read_to_string(&input_file)
         .expect("Could not read file");
 
-    let mut result: Vec<i32> = Vec::new();
-
-    for line in content.lines() {
-        let num: i32 = line.parse()
-            .expect("Could not parse line");
-
-        result.push(num);
-    }
-
-    result
+    content.lines()
+        .map(|line| {
+            line.parse()
+                .expect("Could not parse line")
+        })
+        .collect()
 }
