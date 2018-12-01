@@ -30,3 +30,9 @@ To run my code:
 - make sure `cargo` is in your path
 - `cd` into directory
 - compile and run the program: `$ cargo run`
+
+##### 01/12
+
+This was a fairly easy challenge to start with: mostly reading files, iterating over lists...
+
+I learned some more about error handling (though I kept it simple) and command line input.
