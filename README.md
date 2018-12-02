@@ -39,3 +39,7 @@ This was a fairly easy challenge to start with: mostly reading files, iterating 
 I learned some more about error handling (though I kept it simple) and command line input.
 
 Refactored the code using iterators and closures.
+
+##### 01/12
+
+Today I learned about all types of iterators over strings. It was messy.
