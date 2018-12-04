@@ -108,9 +108,23 @@ fn main() {
 }
 
 fn puzzle_1(input: &Vec<&str>) -> i32 {
-    let events = Event::from_vec(&input);
+    let mut events = Event::from_vec(&input);
 
-    println!("{:?}", events);
+    // TODO: implement Ord/PartialOrd and internalize this
+    events.sort_by(|ev1, ev2| {
+        let t1 = &ev1.time;
+        let t2 = &ev2.time;
+
+        t1.year.cmp(&t2.year)
+            .then(t1.month.cmp(&t2.month))
+            .then(t1.day.cmp(&t2.day))
+            .then(t1.hour.cmp(&t2.hour))
+            .then(t1.minute.cmp(&t2.minute))
+    });
+
+    for event in events {
+        println!("{:?}", event);
+    }
 
     0
 }
