@@ -43,3 +43,9 @@ Refactored the code using iterators and closures.
 ##### 02/12
 
 Today I learned about all types of iterators over strings. It was messy.
+
+##### 03/12 - 04/12 (Day 03)
+
+I had a lot of problems getting started with this puzzle: I had never done any regex-like parsing on Rust, so I had to learn this from scratch. I ended up using [`nom`](https://crates.io/crates/nom), a streaming parser. `nom` is pretty cool, but also kind of complicated. So it took a while to simply parse a claim...
+
+Also, tests are good.
