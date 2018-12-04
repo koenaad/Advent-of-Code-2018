@@ -1,0 +1,7 @@
+[package]
+name = "day04"
+version = "0.1.0"
+authors = ["Koenraad Verheyden <mail@koenraadverheyden.com>"]
+
+[dependencies]
+nom = "4.1"
