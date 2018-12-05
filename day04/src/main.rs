@@ -32,7 +32,9 @@ fn puzzle_1(input: &Vec<&str>) -> i32 {
     println!("The most sleepy guard is: {}", sleepy_guard);
 
     let sleepy_shifts = Shift::filter_on_guard(shifts, sleepy_guard);
-    let sleepy_minute = Shift::find_sleepy_minute(&sleepy_shifts).minute() as i32;
+    let sleepy_minute = Shift::find_sleepy_minute(&sleepy_shifts)
+        .expect("Could not find a sleepy minute")
+        .minute() as i32;
 
     println!("The most sleepy minute is: {}", sleepy_minute);
 
@@ -40,7 +42,29 @@ fn puzzle_1(input: &Vec<&str>) -> i32 {
 }
 
 fn puzzle_2(input: &Vec<&str>) -> i32 {
-    0
+    let events = Event::from_vec(&input);
+    let shifts = Shift::process_events(events);
+
+    let guards = Shift::get_guards(&shifts);
+
+    let (guard, time, count) = guards.iter()
+        .map(|guard| {
+            let shifts_guard = Shift::filter_on_guard(shifts.clone(), *guard);   // TODO this clone tho...
+
+            if let Some((time, count)) = Shift::find_sleepy_minute_and_count(&shifts_guard) {
+                return Some((*guard, time, count));
+            } else {
+                return None;
+            }
+        })
+        .filter(Option::is_some)
+        .map(Option::unwrap)
+        .max_by_key(|(_, _, c)| *c)
+        .unwrap();
+
+    println!("guard: {:?}, time: {:?}, count: {:?}", guard, time, count);
+
+    guard * (time.minute() as i32)
 }
 
 #[cfg(test)]
@@ -74,7 +98,24 @@ mod tests {
     #[test]
     fn test_puzzle_2() {
         let mut example = Vec::new();
-        
-        assert_eq!(puzzle_2(&example), 0);
+        example.push("[1518-11-01 00:00] Guard #10 begins shift");
+        example.push("[1518-11-01 00:05] falls asleep");
+        example.push("[1518-11-01 00:25] wakes up");
+        example.push("[1518-11-01 00:30] falls asleep");
+        example.push("[1518-11-01 00:55] wakes up");
+        example.push("[1518-11-01 23:58] Guard #99 begins shift");
+        example.push("[1518-11-02 00:40] falls asleep");
+        example.push("[1518-11-02 00:50] wakes up");
+        example.push("[1518-11-03 00:05] Guard #10 begins shift");
+        example.push("[1518-11-03 00:24] falls asleep");
+        example.push("[1518-11-03 00:29] wakes up");
+        example.push("[1518-11-04 00:02] Guard #99 begins shift");
+        example.push("[1518-11-04 00:36] falls asleep");
+        example.push("[1518-11-04 00:46] wakes up");
+        example.push("[1518-11-05 00:03] Guard #99 begins shift");
+        example.push("[1518-11-05 00:45] falls asleep");
+        example.push("[1518-11-05 00:55] wakes up");
+
+        assert_eq!(puzzle_2(&example), 4455);
     }
 }

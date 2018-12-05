@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use chrono::Duration;
 use chrono::prelude::*;
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct Shift {
     pub guard: i32,
     pub events: Vec<Event>,
@@ -72,6 +72,18 @@ impl Shift {
         total_asleep as i32
     }
 
+    /// From a list of shifts, get all unique guards.
+    pub fn get_guards(shifts: &Vec<Shift>) -> Vec<i32> {
+        let mut guards: Vec<i32> = shifts.iter()
+            .map(|shift| shift.guard)
+            .collect();
+
+        guards.sort();
+        guards.dedup();
+
+        guards
+    }
+
     /// Filter a list of shifts on the specified guard.
     pub fn filter_on_guard(shifts: Vec<Shift>, guard: i32) -> Vec<Shift> {
         shifts.into_iter()
@@ -93,8 +105,17 @@ impl Shift {
             .0
     }
 
-    /// From a list of shifts, find the minute most often a guard was sleeping.
-    pub fn find_sleepy_minute(shifts: &Vec<Shift>) -> NaiveTime {
+    /// From a list of shifts, find the minute a guard was most often asleep.
+    pub fn find_sleepy_minute(shifts: &Vec<Shift>) -> Option<NaiveTime> {
+        if let Some((time, _)) = Shift::find_sleepy_minute_and_count(shifts) {
+            return Some(time);
+        } else {
+            return None;
+        }
+    }
+
+    /// From a list of shifts, find the minute a guard was most often asleep and how often that was.
+    pub fn find_sleepy_minute_and_count(shifts: &Vec<Shift>) -> Option<(NaiveTime, i32)> {
         let mut time_asleep: HashMap<NaiveTime, i32> = HashMap::new();
         let mut start_sleep: Option<NaiveDateTime> = None;
 
@@ -124,10 +145,14 @@ impl Shift {
             }
         }
 
-        *time_asleep.iter()
-            .max_by_key(|entry| entry.1)    // maximize on the value of the hashmap tuple
-            .unwrap()
-            .0
+        let sleepy_minute = time_asleep.iter()
+            .max_by_key(|entry| entry.1);    // maximize on the value of the hashmap entry
+
+        if let Some((time, count)) = sleepy_minute {
+            return Some((time.clone(), *count));
+        } else {
+            return None;
+        }
     }
 }
 

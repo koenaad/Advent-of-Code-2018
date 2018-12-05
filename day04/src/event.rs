@@ -1,13 +1,13 @@
 use chrono::prelude::*;
 use nom::types::CompleteStr;
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct Event {
     pub datetime: NaiveDateTime,
     pub action: Action,
 }
 
-#[derive(PartialEq, Eq, Debug)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub enum Action {
     BeginShift(i32),
     WakesUp,
