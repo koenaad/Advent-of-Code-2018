@@ -9,7 +9,7 @@ pub struct Event {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum Action {
-    BeginShift(i32),
+    BeginShiftOf(i32),
     WakesUp,
     FallsAsleep,
 }
@@ -75,7 +75,7 @@ named!(parse_action<CompleteStr, Action>,
             tag!("Guard #") >>
             id: parse_i32   >>
 
-            (Action::BeginShift(id))
+            (Action::BeginShiftOf(id))
         )                                               |
         value!(Action::FallsAsleep, tag!("falls"))      |
         value!(Action::WakesUp, tag!("wakes"))
@@ -117,11 +117,11 @@ mod tests {
     fn test_parse_action() {
         assert_eq!(
             parse_action(CompleteStr("Guard #10 begins shift")).unwrap().1,
-            Action::BeginShift(10)
+            Action::BeginShiftOf(10)
         );
         assert_eq!(
             parse_action(CompleteStr("Guard #5 begins shift")).unwrap().1,
-            Action::BeginShift(5)
+            Action::BeginShiftOf(5)
         );
         assert_eq!(
             parse_action(CompleteStr("falls asleep")).unwrap().1,
@@ -138,7 +138,7 @@ mod tests {
         let event = Event::from("[1518-11-01 00:00] Guard #10 begins shift");
 
         assert_eq!(event.datetime, NaiveDate::from_ymd(1518, 11, 01).and_hms(00, 00, 00));
-        assert_eq!(event.action, Action::BeginShift(10));
+        assert_eq!(event.action, Action::BeginShiftOf(10));
 
         let event = Event::from("[1518-11-01 00:05] falls asleep");
 

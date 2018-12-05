@@ -16,10 +16,10 @@ impl Shift {
 
         let mut shifts: Vec<Shift> = Vec::new();
 
-        // parse into separate shifts, by taking everything up to the next BeginShift
+        // parse into separate shifts, by taking everything up to the next BeginShiftOf
         while events.len() > 0 {
             match events.get(0).unwrap().action {
-                Action::BeginShift(guard) => {
+                Action::BeginShiftOf(guard) => {
                     let drain_index = Shift::index_of_second_begin_shift(&events)
                         .unwrap_or(events.len());
 
@@ -28,7 +28,7 @@ impl Shift {
                     shifts.push(Shift { guard, events: shift_events });
                 }
                 _ => {
-                    panic!("BeginShift not at begin of events")
+                    panic!("BeginShiftOf not at begin of events")
                 }
             }
         }
@@ -41,7 +41,7 @@ impl Shift {
             .skip(1)
             .find(|(_, e)| {
                 match e.action {
-                    Action::BeginShift(_) => true,
+                    Action::BeginShiftOf(_) => true,
                     _ => false,
                 }
             })
@@ -56,7 +56,7 @@ impl Shift {
         // events are expected to be sorted by date and time
         for event in &self.events {
             match event.action {
-                Action::BeginShift(_)   => {},
+                Action::BeginShiftOf(_)   => {},
                 Action::FallsAsleep     => {
                     start_asleep = Some(event.datetime);
                 },
@@ -125,7 +125,7 @@ impl Shift {
             // and that a WakesUp never occurs before a FallsAsleep
             for event in &shift.events {
                 match event.action {
-                    Action::BeginShift(_)       => {},
+                    Action::BeginShiftOf(_)       => {},
                     Action::FallsAsleep         => {
                         start_sleep = Some(event.datetime);
                     },
