@@ -49,3 +49,15 @@ Today I learned about all types of iterators over strings. It was messy.
 I had a lot of problems getting started with this puzzle: I had never done any regex-like parsing on Rust, so I had to learn this from scratch. I ended up using [`nom`](https://crates.io/crates/nom), a streaming parser. `nom` is pretty cool, but also kind of complicated. So it took a while to simply parse a claim...
 
 Also, tests are good.
+
+##### 04/12 - 05/12 (Day 04)
+
+This challenge was tough. Spent way too long getting the parsing good. Then spent way too long finding ways to convert these events into duration data.
+
+Using existing libraries / packages is good.
+
+##### 05/12 (Day 05)
+
+This challenge was a lot easier than Day 4 (or maybe I got a lot smarter?). Simply had to write an algorithm to apply the reactions to the polymer and do some more iterating over various combinations.
+
+Execution time is now about 7 seconds (with `--release`), I wonder if this could be further optimized...
