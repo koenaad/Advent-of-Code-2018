@@ -55,7 +55,9 @@ fn puzzle_1(input: &str) -> i32 {
 }
 
 fn puzzle_2(input: &str) -> i32 {
-    let polymer = to_vec(&input);
+    let mut polymer = to_vec(&input);
+
+    polymer = let_it_react(polymer);
 
     let filtered_polymers: Vec<Vec<char>> = "abcdefghijklmnopqrstuvwxyz".chars()
         .map(|filtered_type| {

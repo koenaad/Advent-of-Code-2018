@@ -54,7 +54,7 @@ fn puzzle_2(input: &Vec<&str>) -> String {
 
 fn differs_by_one_char(str1: &str, str2: &str) -> bool {
     str1.chars().zip(str2.chars())
-        .filter(|c| c.0 != c.1)
+        .filter(|(c1, c2)| c1 != c2)
         .count() == 1
 }
 
