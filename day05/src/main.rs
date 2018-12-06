@@ -1,5 +1,5 @@
 // Make sure to use 'cargo run --release` when using the complete input. This redcues execution
-// time from 4m20s to 7s...
+// time from 23s to 0.5s...
 
 fn to_vec(input: &str) -> Vec<char> {
     input.chars()
@@ -57,6 +57,7 @@ fn puzzle_1(input: &str) -> i32 {
 fn puzzle_2(input: &str) -> i32 {
     let mut polymer = to_vec(&input);
 
+    // Thanks to Levi: adding this reduces execution time by 10...
     polymer = let_it_react(polymer);
 
     let filtered_polymers: Vec<Vec<char>> = "abcdefghijklmnopqrstuvwxyz".chars()
