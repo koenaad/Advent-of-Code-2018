@@ -61,3 +61,7 @@ Using existing libraries / packages is good.
 This challenge was a lot easier than Day 4 (or maybe I got a lot smarter?). Simply had to write an algorithm to apply the reactions to the polymer and do some more iterating over various combinations.
 
 Execution time is now about 7 seconds (with `--release`), I wonder if this could be further optimized...
+
+##### 06/12 - 07/12 (Day 06)
+
+This challenge was mostly difficult to wrap your head around. I ended up assuming I could discard all areas which leave the convex hull defined by the given coordinates. This allowed me to create a kind of brute force algorithm since the grid is then limited in size (and brute forcing isn't an issue in Rust). There might be more elegant solutions out there...
