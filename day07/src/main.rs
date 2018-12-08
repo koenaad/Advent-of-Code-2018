@@ -61,10 +61,9 @@ fn do_the_work<Work: Fn(char) -> i32>(mut dependencies: Vec<Dependency>, workers
 
     let mut elapsed_seconds = 0;
 
-    let mut steps_work_left = HashMap::<char, i32>::new();
-    for step in &steps_todo {
-        steps_work_left.insert(*step, calculate_work(*step));
-    }
+    let mut steps_work_left: HashMap<_,_> = steps_todo.iter()
+        .map(|&step| (step, calculate_work(step)))
+        .collect();
 
     loop {
         // if workers are idle, take on some new work
