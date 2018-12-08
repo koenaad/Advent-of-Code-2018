@@ -69,3 +69,7 @@ This challenge was mostly difficult to wrap your head around. I ended up assumin
 ##### 07/12 - 08/12 (Day 07)
 
 This was one difficult to get started, but once I started thinking in steps to do, steps in progress and steps done it clicked.
+
+##### 08/12 (Day 08)
+
+This was fun. Recursive parsing in `nom` is nice.
