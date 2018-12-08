@@ -65,3 +65,7 @@ Execution time is now about 7 seconds (with `--release`), I wonder if this could
 ##### 06/12 - 07/12 (Day 06)
 
 This challenge was mostly difficult to wrap your head around. I ended up assuming I could discard all areas which leave the convex hull defined by the given coordinates. This allowed me to create a kind of brute force algorithm since the grid is then limited in size (and brute forcing isn't an issue in Rust). There might be more elegant solutions out there...
+
+##### 07/12 - 08/12 (Day 07)
+
+This was one difficult to get started, but once I started thinking in steps to do, steps in progress and steps done it clicked.
