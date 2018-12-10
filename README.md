@@ -73,3 +73,7 @@ This was one difficult to get started, but once I started thinking in steps to d
 ##### 08/12 (Day 08)
 
 This was fun. Recursive parsing in `nom` is nice.
+
+##### 09/12 - 10/12 (Day 09)
+
+Ran into massive performance issues here. Finding the solution to puzzle 2 took 2 hours 18 minutes... Should probably spend some time implementing a linked list in Rust.
