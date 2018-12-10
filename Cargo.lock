@@ -103,6 +103,15 @@ name = "day09"
 version = "0.1.0"
 
 [[package]]
+name = "day10"
+version = "0.1.0"
+dependencies = [
+ "nom 4.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "structopt 0.2.13 (registry+https://github.com/rust-lang/crates.io-index)",
+ "util 0.1.0",
+]
+
+[[package]]
 name = "heck"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
