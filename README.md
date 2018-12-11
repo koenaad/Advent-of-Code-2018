@@ -77,3 +77,8 @@ This was fun. Recursive parsing in `nom` is nice.
 ##### 09/12 - 10/12 (Day 09)
 
 Ran into massive performance issues here. Finding the solution to puzzle 2 took 2 hours 18 minutes... Should probably spend some time implementing a linked list in Rust.
+
+##### 10/12 (Day 10)
+
+Had to make a small cli. Was interesting.
+
