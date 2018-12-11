@@ -82,3 +82,6 @@ Ran into massive performance issues here. Finding the solution to puzzle 2 took 
 
 Had to make a small cli. Was interesting.
 
+##### 11/12 (Day 11)
+
+Learned a lot about making libraries and using generic types. Also `rayon` is the real MVP, instant parallel iterations. Reduces calculation time of puzzle 2 from 89 seconds to 16 seconds!

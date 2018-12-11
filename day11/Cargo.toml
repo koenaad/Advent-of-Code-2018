@@ -1,9 +1,9 @@
 [package]
-name = "util"
+name = "day11"
 version = "0.1.0"
 authors = ["Koenraad Verheyden <mail@koenraadverheyden.com>"]
 edition = "2018"
 
 [dependencies]
-nom = "4.1"
-num-traits = "0.2"
+util = { path = "../util" }
+rayon = "1.0"
