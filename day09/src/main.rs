@@ -1,6 +1,4 @@
-mod circular_vec;
-
-use crate::circular_vec::CircularVec;
+use util::circular_vec::CircularVec;
 use std::collections::HashMap;
 use std::time::Instant;
 
