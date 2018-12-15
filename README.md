@@ -85,3 +85,7 @@ Had to make a small cli. Was interesting.
 ##### 11/12 (Day 11)
 
 Learned a lot about making libraries and using generic types. Also `rayon` is the real MVP, instant parallel iterations. Reduces calculation time of puzzle 2 from 89 seconds to 16 seconds!
+
+##### 14/12 (Day 14)
+
+Mostly had difficulty understanding what was asked here...
