@@ -89,3 +89,7 @@ Learned a lot about making libraries and using generic types. Also `rayon` is th
 ##### 14/12 (Day 14)
 
 Mostly had difficulty understanding what was asked here...
+
+##### 15/12 (Day 12)
+
+Found a solution, but it doesn't scale well over a couple of 1000's of generations. Tried to parallelize the pattern matching, but that was obviously not sufficient. There is probably another solution...
