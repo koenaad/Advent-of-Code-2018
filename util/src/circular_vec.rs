@@ -21,7 +21,7 @@ impl<T> CircularVec<T>
         CircularVec { data: Vec::new() }
     }
 
-    fn wrap_index(&self, i: isize) -> usize {
+    pub fn wrap_index(&self, i: isize) -> usize {
         let len = self.data.len() as isize; // Risk: mnight overflow for very large indexes...
 
         if len == 0 {
@@ -55,6 +55,11 @@ impl<T> CircularVec<T>
         self.data.insert(index, el);
 
         index as isize
+    }
+
+    /// Insert a new element at the end of list.
+    pub fn push(&mut self, el: T) {
+        self.data.push(el);
     }
 
     /// Get the element at `index`, remove it from the list and return it.
