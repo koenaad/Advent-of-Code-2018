@@ -93,3 +93,7 @@ Mostly had difficulty understanding what was asked here...
 ##### 15/12 (Day 12)
 
 Found a solution, but it doesn't scale well over a couple of 1000's of generations. Tried to parallelize the pattern matching, but that was obviously not sufficient. There is probably another solution...
+
+##### 16/12 (Day 13)
+
+This was hard to get structured. It works, but my domain is spread all over. Should probably spend some time refactoring this... some day.
