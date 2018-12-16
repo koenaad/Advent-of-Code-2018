@@ -1,13 +1,10 @@
 use std::fmt;
-use util::vec2::Vec2;
-
-use crate::cart::*;
-use crate::track::*;
+use crate::cart::{Cart, Pos};
+use crate::track::Track;
 
 pub struct World {
     grid: Vec<Vec<Track>>,
     carts: Vec<Cart>,
-    ticks: i32,
 }
 
 impl World {
@@ -15,6 +12,7 @@ impl World {
         let mut grid = Vec::new();
         let mut carts = Vec::new();
 
+        // parse input into Tracks and Carts
         for (y, l) in input.lines().enumerate() {
             let mut row = Vec::new();
 
@@ -31,6 +29,7 @@ impl World {
             grid.push(row);
         }
 
+        // determine remaining `ToDo` Tracks
         for y in 0..grid.len() {
             for x in 0..grid[y].len() {
                 if grid[y][x] != Track::ToDo {
@@ -73,15 +72,54 @@ impl World {
                 }
             }
         }
-
-        World { grid, carts, ticks: 0 }
+        World { grid, carts }
     }
 
     pub fn tick(&mut self) {
+        self.carts.sort();
+
+        for i1 in 0..self.carts.len() {
+            self.carts[i1].step(&self.grid);
+
+            let new_pos = self.carts[i1].pos();
+
+            // hmm... 🤔
+            for i2 in 0..self.carts.len() {
+                if self.carts[i2].pos() == new_pos && i1 != i2 {
+                    self.carts[i1].set_collided(true);
+                    self.carts[i2].set_collided(true);
+                }
+            }
+
+        }
     }
 
-    pub fn find_first_crash(&mut self) -> (Vec2<usize>, i32) {
-        (Vec2::new(0, 0), 0)
+    pub fn tick_until_first_collision(&mut self) -> Pos {
+        loop {
+            self.tick();
+
+            let collisions: Vec<Pos> = self.carts.iter()
+                .filter(|cart| cart.has_collided())
+                .map(|cart| cart.pos())
+                .collect();
+
+            if collisions.len() >= 1 {
+                return collisions[0].clone();
+            }
+        }
+    }
+
+    pub fn tick_until_one_cart_left(&mut self) -> Pos {
+        loop {
+            self.tick();
+
+            // remove collided carts from circuit
+            self.carts.retain(|cart| !cart.has_collided());
+
+            if self.carts.len() == 1 {
+                return self.carts[0].pos();
+            }
+        }
     }
 }
 

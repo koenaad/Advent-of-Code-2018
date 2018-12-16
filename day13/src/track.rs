@@ -1,4 +1,5 @@
 use std::fmt;
+use crate::dir::Dir;
 
 #[derive(Debug, Eq, PartialEq)]
 pub enum Track {
@@ -71,6 +72,37 @@ impl Track {
             Track::ToDo     => panic!("AAA"),
         }
     }
+
+    pub fn next_dir(&self, prev_dir: &Dir) -> Vec<Dir> {
+        match self {
+            Track::Hor      => vec![prev_dir.clone()],
+            Track::Vert     => vec![prev_dir.clone()],
+            Track::Cross    => 
+                // always return 3 options in order: turn left, straight-forward, turn right
+                match prev_dir {
+                    Dir::Up     => vec![Dir::Left, Dir::Up, Dir::Right],
+                    Dir::Down   => vec![Dir::Right, Dir::Down, Dir::Left],
+                    Dir::Left   => vec![Dir::Down, Dir::Left, Dir::Up],
+                    Dir::Right  => vec![Dir::Up, Dir::Right, Dir::Down],
+                },
+            Track::DiaTL_BR =>
+                match prev_dir {
+                    Dir::Up     => vec![Dir::Left],
+                    Dir::Down   => vec![Dir::Right],
+                    Dir::Left   => vec![Dir::Up],
+                    Dir::Right  => vec![Dir::Down],
+                },
+            Track::DiaTR_BL =>
+                match prev_dir {
+                    Dir::Up     => vec![Dir::Right],
+                    Dir::Down   => vec![Dir::Left],
+                    Dir::Left   => vec![Dir::Down],
+                    Dir::Right  => vec![Dir::Up],
+                },
+            Track::Empty    => panic!("You can't drive here"),
+            Track::ToDo     => panic!("Oh no"),
+        }
+    }
 }
 
 impl fmt::Display for Track {
@@ -102,4 +134,6 @@ mod test {
 
         assert!(Track::parse('v').is_err());
     }
+
+    // TODO: more tests...
 }

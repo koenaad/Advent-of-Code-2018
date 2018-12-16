@@ -4,7 +4,7 @@ mod track;
 mod world;
 
 use crate::world::World;
-use util::vec2::Vec2;
+use crate::cart::Pos;
 
 fn main() {
     let input = include_str!("../input.txt");
@@ -13,16 +13,16 @@ fn main() {
     println!("Puzzle 2: {}", puzzle_2(&input));
 }
 
-fn puzzle_1(input: &str) -> Vec2<usize> {
+fn puzzle_1(input: &str) -> Pos {
     let mut world = World::load(&input);
 
-    println!("{}", world);
-
-    world.find_first_crash().0
+    world.tick_until_first_collision()
 }
 
-fn puzzle_2(input: &str) -> Vec2<usize> {
-    Vec2::new(0, 0)
+fn puzzle_2(input: &str) -> Pos {
+    let mut world = World::load(&input);
+
+    world.tick_until_one_cart_left()
 }
 
 #[cfg(test)]
@@ -31,15 +31,15 @@ mod test {
 
     #[test]
     fn test_puzzle_1() {
-        let example = include_str!("../example.txt");
+        let example = include_str!("../example_1.txt");
 
         assert_eq!(puzzle_1(&example), (7, 3));
     }
 
     #[test]
     fn test_puzzle_2() {
-        let example = include_str!("../example.txt");
+        let example = include_str!("../example_2.txt");
 
-        assert_eq!(puzzle_2(&example), (0, 0));
+        assert_eq!(puzzle_2(&example), (6, 4));
     }
 }

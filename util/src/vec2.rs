@@ -1,7 +1,7 @@
 use std::fmt::{Display, Formatter, Result};
 
 /// A 2 dimensional vector.
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Vec2<T> {
     pub x: T,
     pub y: T,
