@@ -1,5 +1,6 @@
 use num_traits::cast::ToPrimitive;
 use std::fmt::{Display, Formatter, Result};
+use rayon::prelude::*;
 
 pub struct Grid<T> {
     width: usize,
@@ -18,6 +19,23 @@ impl<T> Grid<T> {
                 data.push(value(x, y));
             }
         }
+        Grid { width, height, data }
+    }
+
+    /// Populate each cell of a grid of `width` by `height` with `value`, in _parallel_.
+    pub fn populate_parallel<F>(width: usize, height: usize, value: F) -> Grid<T>
+        where F: Fn(usize, usize) -> T + Sync, T: Send
+    {
+        let data = (0..height).into_par_iter()
+            .flat_map(|y| -> Vec<T> {
+                let mut row = Vec::with_capacity(width);
+                for x in 0..width {
+                    row.push(value(x, y));
+                }
+                row
+            })
+            .collect();
+
         Grid { width, height, data }
     }
 
@@ -157,6 +175,21 @@ mod test {
     #[test]
     fn test_populate() {
         let grid = Grid::populate(3, 3, |x, y| (x + y) as i32);
+
+        assert_eq!(*grid.get(0, 0), 0);
+        assert_eq!(*grid.get(1, 0), 1);
+        assert_eq!(*grid.get(2, 0), 2);
+        assert_eq!(*grid.get(0, 1), 1);
+        assert_eq!(*grid.get(1, 1), 2);
+        assert_eq!(*grid.get(2, 1), 3);
+        assert_eq!(*grid.get(0, 2), 2);
+        assert_eq!(*grid.get(1, 2), 3);
+        assert_eq!(*grid.get(2, 2), 4);
+    }
+
+    #[test]
+    fn test_populate_parallel() {
+        let grid = Grid::populate_parallel(3, 3, |x, y| (x + y) as i32);
 
         assert_eq!(*grid.get(0, 0), 0);
         assert_eq!(*grid.get(1, 0), 1);

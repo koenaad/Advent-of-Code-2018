@@ -42,8 +42,8 @@ fn evolve(grid: &Grid<char>) -> Grid<char> {
     let populate_fn =  move |x, y| {
         next_spawn(grid.get(x, y), grid.get_neighbours(x, y))
     };
-
-    Grid::populate(grid.get_width(), grid.get_height(), populate_fn)
+    
+    Grid::populate_parallel(grid.get_width(), grid.get_height(), populate_fn)
 }
 
 fn evolve_times(grid: &Grid<char>, times: usize) -> Grid<char> {
@@ -84,11 +84,11 @@ fn main() {
     // align to 10.000
     grid = evolve_times(&grid, 10_000 - steps);
     steps = 10_000;
+    println!("{} seconds, {} steps", start.elapsed().as_secs(), steps);
 
     while steps < 1_000_000_000usize {
         grid = evolve_times(&grid, 10_000);
         steps += 10_000;
-
         println!("{} seconds, {} steps", start.elapsed().as_secs(), steps);
     }
 
