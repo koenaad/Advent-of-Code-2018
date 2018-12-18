@@ -10,9 +10,9 @@ fn main() {
 }
 
 fn create_power_grid(serial_number: isize) -> Grid<isize> {
-    Grid::populate(300, 300, |pos| {
-        let rack_id = (pos.x as isize) + 10;
-        let mut power_level = rack_id * (pos.y as isize);
+    Grid::populate(300, 300, |x, y| {
+        let rack_id = (x as isize) + 10;
+        let mut power_level = rack_id * (y as isize);
         power_level += serial_number;
         power_level *= rack_id;
         power_level = power_level % 1000 / 100;
@@ -24,9 +24,9 @@ fn create_power_grid(serial_number: isize) -> Grid<isize> {
 fn puzzle_1(serial_number: isize) -> (usize, usize) {
     let grid = create_power_grid(serial_number);
 
-    let max = grid.find_max_rect(3, 3).0;
+    let (x, y, _) = grid.find_max_rect(3, 3);
 
-    (max.x, max.y)
+    (x, y)
 }
 
 fn puzzle_2(serial_number: isize) -> (usize, usize, usize) {
@@ -34,20 +34,20 @@ fn puzzle_2(serial_number: isize) -> (usize, usize, usize) {
 
     let start = Instant::now();
 
-    let (pos, _, size) = (1..300usize)
+    let (x, y, _, size) = (1..300usize)
         .into_par_iter()
         // .inspect(|i| println!("{}: start {}", start.elapsed().as_secs(), i))
         .map(|size| {
-            let (pos, total_power) = grid.find_max_rect(size, size);
-            (pos, total_power, size)
+            let (x, y, total_power) = grid.find_max_rect(size, size);
+            (x, y, total_power, size)
         })
-        // .inspect(|(_, _, size)| println!("{}: {} done", start.elapsed().as_secs(), size))
-        .max_by_key(|(_, total_power, _)| *total_power)
+        // .inspect(|(_, _, _, size)| println!("{}: {} done", start.elapsed().as_secs(), size))
+        .max_by_key(|(_, _, total_power, _)| *total_power)
         .unwrap();
 
     println!("Computation time: {} secs", start.elapsed().as_secs());
 
-    (pos.x, pos.y, size)
+    (x, y, size)
 }
 
 #[cfg(test)]
