@@ -25,6 +25,41 @@ impl<T> Grid<T> {
         Grid { width, height, data }
     }
 
+    /// Convert a string, consisting of multiple lines, to a grid using `parse`.
+    pub fn convert<F>(input: &str, parse: F) -> Grid<T>
+        where F: Fn(char) -> T
+    {
+        let lines: Vec<&str> = input.lines().collect();
+
+        if lines.is_empty() {
+            panic!("Input contains no lines");
+        }
+        let height = lines.len();
+
+        let min_width = lines.iter().map(|line| line.len()).min().unwrap();
+        let max_width = lines.iter().map(|line| line.len()).max().unwrap();
+
+        if min_width != max_width {
+            panic!("Not all lines have the same length");
+        }
+        let width = max_width;
+
+        let data = lines.iter()
+            .flat_map(|line| line.chars())
+            .map(|c| parse(c))
+            .collect();
+
+        Grid { width, height, data }
+    }
+
+    pub fn get_width(&self) -> usize {
+        self.width
+    }
+
+    pub fn get_height(&self) -> usize {
+        self.height
+    }
+
     /// Panics when `x` or `y` is out of bounds.
     pub fn get(&self, x: usize, y: usize) -> &T {
         if x > self.width || y > self.height {
@@ -102,14 +137,32 @@ mod test {
         let grid = Grid::populate(3, 3, |pos| (pos.x + pos.y) as i32);
 
         assert_eq!(*grid.get(0, 0), 0);
-        assert_eq!(*grid.get(0, 1), 1);
-        assert_eq!(*grid.get(0, 2), 2);
         assert_eq!(*grid.get(1, 0), 1);
-        assert_eq!(*grid.get(1, 1), 2);
-        assert_eq!(*grid.get(1, 2), 3);
         assert_eq!(*grid.get(2, 0), 2);
+        assert_eq!(*grid.get(0, 1), 1);
+        assert_eq!(*grid.get(1, 1), 2);
         assert_eq!(*grid.get(2, 1), 3);
+        assert_eq!(*grid.get(0, 2), 2);
+        assert_eq!(*grid.get(1, 2), 3);
         assert_eq!(*grid.get(2, 2), 4);
+    }
+
+    #[test]
+    fn test_convert() {
+        let input = "123\n456\n789\n";
+        let grid = Grid::convert(&input, |c| c.to_digit(10).unwrap());
+
+        assert_eq!(grid.get_width(), 3);
+        assert_eq!(grid.get_height(), 3);
+        assert_eq!(*grid.get(0, 0), 1);
+        assert_eq!(*grid.get(1, 0), 2);
+        assert_eq!(*grid.get(2, 0), 3);
+        assert_eq!(*grid.get(0, 1), 4);
+        assert_eq!(*grid.get(1, 1), 5);
+        assert_eq!(*grid.get(2, 1), 6);
+        assert_eq!(*grid.get(0, 2), 7);
+        assert_eq!(*grid.get(1, 2), 8);
+        assert_eq!(*grid.get(2, 2), 9);
     }
 
     #[test]
