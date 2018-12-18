@@ -74,6 +74,31 @@ impl<T> Grid<T> {
         self.data[(y * self.width) + x].clone()
     }
 
+    pub fn iter(&self) -> std::slice::Iter<T> {
+        self.data.iter()
+    }
+
+    /// Return a list of references to all neighbouring cells.
+    pub fn get_neighbours(&self, x: usize, y: usize) -> Vec<&T> {
+        let mut neighbours = Vec::new();
+
+        let min_y = if y == 0 { 0 } else { y - 1 };
+        let max_y = if y == self.height - 1 { self.height - 1 } else { y + 1 };
+
+        let min_x = if x == 0 { 0 } else { x - 1 };
+        let max_x = if x == self.width - 1 { self.width - 1 } else { x + 1 };
+
+        for y1 in min_y..max_y+1 {
+            for x1 in min_x..max_x+1 {
+                if x == x1 && y == y1 {
+                    continue;
+                }
+                neighbours.push(&self.data[(y1 * self.width) + x1]);
+            }
+        }
+        neighbours
+    }
+
     /// Return the `x` and `y` coordinates of the top-left corner of a rectangle
     /// of `width` by `height` with the highest sum of values.
     pub fn find_max_rect(&self, width: usize, height: usize) -> (usize, usize, isize)
@@ -168,6 +193,30 @@ mod test {
         let grid = Grid::populate(3, 3, |x, y| (x + y) as i32);
 
         grid.get(0, 4);
+    }
+
+    #[test]
+    fn test_get_neighbours() {
+        let input = "123\n456\n789\n";
+        let grid = Grid::convert(&input, |c| c.to_digit(10).unwrap());
+
+        let neighbours1 = grid.get_neighbours(0, 2);
+        assert_eq!(neighbours1.len(), 3);
+        assert!(neighbours1.contains(&&4));
+        assert!(neighbours1.contains(&&5));
+        assert!(neighbours1.contains(&&8));
+
+        let neighbours2 = grid.get_neighbours(1, 1);
+        assert_eq!(neighbours2.len(), 8);
+        assert!(!neighbours2.contains(&&5));    // should contain everything, except 5
+
+        let neighbours3 = grid.get_neighbours(2, 1);
+        assert_eq!(neighbours3.len(), 5);
+        assert!(neighbours3.contains(&&2));
+        assert!(neighbours3.contains(&&3));
+        assert!(neighbours3.contains(&&5));
+        assert!(neighbours3.contains(&&8));
+        assert!(neighbours3.contains(&&9));
     }
 
     #[test]
