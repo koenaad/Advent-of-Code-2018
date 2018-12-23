@@ -97,3 +97,7 @@ Found a solution, but it doesn't scale well over a couple of 1000's of generatio
 ##### 16/12 (Day 13)
 
 This was hard to get structured. It works, but my domain is spread all over. Should probably spend some time refactoring this... some day.
+
+##### 23/12 (Day 23)
+
+Part 1 was very easy. Part 2 not so much... having a lot of trouble decreasing the search space.
