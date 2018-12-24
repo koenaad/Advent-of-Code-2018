@@ -101,3 +101,5 @@ This was hard to get structured. It works, but my domain is spread all over. Sho
 ##### 23/12 (Day 23)
 
 Part 1 was very easy. Part 2 not so much... having a lot of trouble decreasing the search space.
+
+Attempted various search strategies to wade through the entire space, but I seem to be making some bad assumptions...
